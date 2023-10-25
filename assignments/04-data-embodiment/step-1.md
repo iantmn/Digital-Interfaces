@@ -8,7 +8,7 @@ has_children: false
 
 # Step 1: Setting up MQTT on your ItsyBitsy
 
-After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connected-Interaction-Kit/tutorials/03-connect-to-the-internet/) and connected your ItsyBitsy to the Internet, follow the steps below to establish a basic MQTT connection with our MQTT server.
+After successfully completing [Tutorial 4](https://id-studiolab.github.io/Connected-Interaction-Kit/tutorials/03-connect-to-the-internet/) and connected your ItsyBitsy to the Internet, follow the steps below to establish a basic MQTT connection with our MQTT server.
 
 1. Download the [Circuit Python library bundle for Version 7.x](https://circuitpython.org/libraries) if you haven’t already. Do not copy the entire .zip bundle to your CIRCUITPY device! Instead copy over only the specific library folders that you need for this assignment. They are referenced in this tutorial. 
 2. Search for `adafruit_minimqtt` and copy the whole `adafruit_minimqtt` library folder into the `lib` folder of your `CIRCUITPY` device
@@ -17,10 +17,10 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
    secrets = {
       'ssid' : 'TUD-facility', # The wifi we connect to 
       'password' : 'replace-with-your-iPSK-String', # Our personal password to connect to Wifi
-      'mqtt_broker' : 'idedigitalinterfaces.cloud.shiftr.io', # The MQTT server we connect to
-      'mqtt_broker_user' : 'idedigitalinterfaces', # The username for connecting to the server
-      'mqtt_broker_password' : 'KxiJ75HOT0VAwDQR', # The password for connecting to the server
-      'mqtt_clientid': 'Studio13_Frederik', # The device name we present to the server when connecting
+      'mqtt_broker' : 'ide-education.cloud.shiftr.io', # The MQTT server we connect to
+      'mqtt_broker_user' : 'ide-education', # The username for connecting to the server
+      'mqtt_broker_password' : '9RI9jcOCtnoIAESq', # The password for connecting to the server
+      'mqtt_clientid': 'Studio5_Caspar', # The device name we present to the server when connecting
    }
    ```
 4. This week we are introducing a new way of choosing what code should be executed on your ItsyBitsy. We think that this will help you when juggling or working on multiple prototypes or code tryouts at the same time.
@@ -32,7 +32,6 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
    import time
    import board
    import busio
-   import p9813
    from digitalio import DigitalInOut
    from adafruit_esp32spi import adafruit_esp32spi
    from adafruit_esp32spi import adafruit_esp32spi_wifimanager
@@ -78,7 +77,7 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
       print("Disconnected from MQTT Broker!")
    
    def message(client, topic, message):
-      global incoming_value
+      global last_incoming_value
       """Method callled when a client's subscribed feed has a new
       value.
       :param str topic: The topic of the feed with a new value.
@@ -86,8 +85,15 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
       """
       print("New message on topic {0}: {1}".format(topic, message))
       
-      # New values are saved in this variable
-      incoming_value = float(message)
+      # Check if we are recieving messages from ISS -> Location, that message contains two values
+      if " " in message:
+          last_incoming_value = message.split()
+          # make a number out of the message
+          last_incoming_value[0] = float(last_incoming_value[0])
+          last_incoming_value[1] = float(last_incoming_value[1])
+      else:
+          # make a number out of the message
+          last_incoming_value = float(message)
    
    # Connect to WiFi
    print("Connecting to WiFi...")
@@ -116,13 +122,12 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
    # Here you can choose what datasource you want to subscribe to. The default is Perlin Noise.
    # Make sure there is only one datasource active at any given time (and otherwise add a # before the one you do not want to use anymore)
    
-   MQTT_topic = "Perlin"
-   #MQTT_topic = "ISS/distance"
-   #MQTT_topic = "ISS/coordinates"
-   #MQTT_topic = "Coffeemachine"
+   MQTT_topic = "perlin"
+   #MQTT_topic = "iss/distance"
+   #MQTT_topic = "iss/location"
    
    # We will use this value to save new incoming data
-   incoming_value = 0;
+   last_incoming_value = 0
    
    ## --- Functions
    
@@ -131,12 +136,13 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
    # Connect the client to the MQTT broker.
    print("Connecting to MQTT broker...")
    mqtt_client.connect()
+   mqtt_client._backwards_compatible_sock = True
    
    # --- Main loop
    while True:
       # This try / except loop is used to continuously get new data from MQTT, and reset if anything goes wrong
       try:
-         mqtt_client.loop()
+         mqtt_client.loop(0.1)
       except (ValueError, RuntimeError) as e:
          print("Failed to get data, retrying\n", e)
          wifi.reset()
@@ -147,7 +153,7 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
       # Add your own looping functions to do something with the data below this line
       
       # Let's print the incoming data in our Serial Monitor
-      print(incoming_value)
+      print(last_incoming_value)
    
       time.sleep(0.01)
    ```
@@ -169,4 +175,4 @@ After successfully completing [Tutorial 3](https://id-studiolab.github.io/Connec
 
 6. Let’s `import mqtt_client` for now and save the file. Open the `Serial Monitor` and you should be receiving data!
 
-[Next Step](step-2){: .btn .btn-blue }
+[Previous Step](index){: .btn .btn-gray }  [Next Step](step-2){: .btn .btn-blue }
