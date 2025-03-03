@@ -5,65 +5,7 @@ has_children: false
 parent: "Tutorials"
 ---
 
-# Dealing with Time in Circuit Python - Coding Seminar
-
-# **Modules and Libraries in Circuit Python**
-
-*****************For more information on Modules and Libraries also see the [FAQ section](https://www.notion.so/FAQ-4d1e68a1814b4fd890f08981efcf8a1b) on this page.*
-
-- Modules and libraries are handled quite similarly in many ways. A library will often (maybe always?) be a collection of modules.
-- Some **Libraries** also come bundled with the (Circuit)Python installation, and you can see what's on your ItsyBitsy by exploring the file structure.
-- If you need to add a **Library** that you don't already have, it's a fairly simple case of downloading it and then copying it to the correct place in the ItsyBitsy file structure. Check the **reference documentation** if you need more help on doing this.
-- In order to **use** a **Module** (even a Core Module) or a **Library** that has been installed on your device, you still need to "add it" in each session. This can be done in the (Circuit)Python Console, if you're working there, or in the .py file if you're writing one. This is done using the **import** command. (See example below)
-    
-    ```jsx
-    import time
-    ```
-    
-
-## The Import Command
-
-*****************For more information on Modules and Libraries also see the [FAQ section](https://www.notion.so/FAQ-4d1e68a1814b4fd890f08981efcf8a1b) on this page.*
-
-- The basic way of doing this is to simply write "**import module_name**" or "**import library_name**" (note that you do this with no file extension, so no ".py" on the name)
-- Some modules have pretty long names, and generally in order to use any of the functionality you have to type the name (among other things...). For this reason, there's an option to "**import long_module_name as short_name**" or "**import long_library_name as short_name**".
-    
-    So instead of:
-    
-    ```jsx
-    import digitalio
-    
-    button = digitalio.DigitalInOut(board.D13)
-    ```
-    
-    You can write:
-    
-    ```python
-    import digitalio as dig
-    
-    #Now you can refer to ‘digitalio’ with just ‘dig’
-    button = dig.DigitalInOut(board.D13)
-    ```
-    
-- There is also the option to import only certain functions, constants etc. from a module or library. This is done using the "**from module import function"** syntax e.g. "**from math import sin**". One of the main benefits of doing this is also short-hand. If you import the whole math module, then to use sin you have to write "**math.sin(something)**". If you use the "from" approach above, then you can just do "**sin(something)**"
-    
-    ```jsx
-    import usb_hid
-    from adafruit_hid.keyboard import Keyboard
-    ```
-    
-
-## **Finding out what’s in a Module or Library**
-
-*****************For more information on Modules and Libraries also see the FAQ section on this page.*****************
-
-- While you would often want to check documentation online, it can sometimes be quite useful to interrogate the functionality offered by a module or library from within (Circuit)Python.
-- This can be done from the (Circuit)Python console. First you import the thing you want to use e.g. "**import math**", then you have two options:
-    - Typing "**dir(math)**" will simply give you a list of the functions and values 'inside' it
-    - Typing "**help(math)**" will give you a much longer answer, that actually describes all the functions and values and what they do.
-    - As a compromise, you also have the option to see the list of things using "**dir()**", and then find out a bit more about it by using "help()". For example, you could write "**help(math.sin)**" to find out about the sin function specifically.
-
-# **Time in Circuit Python**
+# Dealing with Time in Circuit Python
 
 You often need to take time into account one way or another when writing programs. The **Core Module** called **time** can help us with this! It has a few more bits of functionality than I will describe here (check the documentation if you're interested). I will focus on the most important and fundamental functions, which are also very useful for the type of thing's you might be doing.
 
@@ -100,11 +42,11 @@ Difference between **time.monotonic()** and **time.monotonic_ns()**
 
 To illustrate these concepts, we will consider two examples: blinking an LED, and detecting a "double click" of a button. The associated programs are provided.
 
-Example 1: Blinked an LED
+## Example 1: Blink an LED
 
 Two programs are provided, both of which make the on-board LED blink at 1Hz and 50% duty cycle (i.e. on for 500ms, off for 500ms and so on).
 
-Program 1: using **time.sleep()**
+### Program 1: using **time.sleep()**
 
 The first program (“LED blink using sleep.py”) does this using **time.sleep()**: it turns on the LED, sleeps for 500ms, turns off the LED, sleeps for 500ms and repeats. (See the detailed comments in the code for further explanation)
 
@@ -144,7 +86,7 @@ while True:
     # The loop will repeat, causing the LED to blink on and off every half second.
 ```
 
-Program 2: using **time.monotonic()**
+### Program 2: using **time.monotonic()**
 
 The second program (“LED blink using time monotonic.py”) achieves the same thing using **time.monotonic()**: it notes the last time it changed the LED state, keeps looping and checking the time, and changes the state again when enough time has passed (See the detailed comments in the code for further explanation)
 
@@ -191,7 +133,7 @@ while True:
         lastChangeTimeLED = timeNow
 ```
 
-Example 2: Detecting “double click” of a button
+## Example 2: Detecting “double click” of a button
 
 Background information
 
@@ -206,7 +148,7 @@ Switch bouncing, also known as contact bouncing, is a common issue in electronic
 - The Touch Sensor module includes hardware debouncing so it gives a very clean signal.
 - We won’t go further into the issue of debouncing here, so just use the Touch Sensor for now.
 
-Program 1: most basic way
+### Program 1: most basic way
 
 The first program (“Button basic.py”) is just included to show the most basic way to control an LED from a button. The LED mirrors the state of the button, so it’s on while you hold the button. See comments in the program for more detailed explanation.
 
@@ -239,7 +181,7 @@ while True:
     led.value = button.value
 ```
 
-Program 2: edge detection
+### Program 2: edge detection
 
 The second program (“Button toggle single click.py) introduces the concept of **edge detection**. It specifically monitors to changes from **low** to **high** in the state of the button. Each time this occurs, it **toggles** the state of the LED (i.e. turns it on if it was off and vice versa). Again, this is explained in more detail in the comments in the code.
 
@@ -285,7 +227,7 @@ while True:
     led.value = LEDstate
 ```
 
-Program 3: button toggle using **********************time module**********************
+### Program 3: button toggle using **time module**
 
 Finally, the third program (“Button toggle only on double click.py”) uses the **time** module (specifically the **time.monotonic()** function) to differentiate between a “double click” (two clicks in sufficiently quick succession – 250ms in the provided code) and one or more “single clicks”. It only toggles the LED state on a double click, but it prints “Single Click” or “Double Click” to the serial monitor. If you were using this as part of a larger program, you could do different actions on the single and double clicks. This one is fairly complicated, but the comments in the code explain in detail.
 
@@ -338,5 +280,3 @@ while True:
     # Set the LED state according to the value of LEDstate.
     led.value = LEDstate
 ```
-
-[FAQ](https://www.notion.so/FAQ-4d1e68a1814b4fd890f08981efcf8a1b)

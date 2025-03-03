@@ -16,9 +16,17 @@ The basic game makes use of two input components (either Touch Sensor or Tactile
 Once the LED turns white, both players have to try and touch their sensor as quick as possible. Whoever is faster wins the round, and the LED will light up in the corresponding color.
 
 ![](reaction_game.jpg)
-## Code for the game
-We provide you with the basic code for the game. You can deduce the correct wiring of the buttons and LED from the set variables. Copy this code into your `code.py` file and connect all hardware components to have a basic game ready.
+## Connecting the cables
+Your ItsyBitsy has several connection ports on it. 
+To be sure that your code works properly, you need to make sure that the ports to which you connected your components are the same used in your code.
 
+For example, if you connect a component to port D7, you need to use the following code to reference it:
+
+| ![](ItsyBitsyPort.png) | ![](pinAssignment.png) |
+
+## Code for the game
+We provide you with the basic code for the game. Copy this code into your `code.py` file and connect all hardware components to have a basic game ready.
+Look through the code and use the examples from the previous section to deduce where to connect your components!
 
 ```python  
 ##--- Imports
@@ -79,21 +87,24 @@ def timer_expired():
 
 ##--- Main loop
 while True:
-
     if current_state == state_wait:
         set_led_color(led_off)
         set_timer(random.randint(3, 10))
+        print("starting game!")
         current_state = state_start_game
 
     elif current_state == state_start_game:
         if timer_expired():
+            print("timer expired, press your buttons!")
             set_led_color(led_white)
             current_state = state_wait_button_press
 
     elif current_state == state_wait_button_press:
         if red_button.value:
+            print("red won")
             current_state = state_red_wins
         elif blue_button.value:
+            print("blue won")
             current_state = state_blue_wins
 
     elif current_state == state_blue_wins:
