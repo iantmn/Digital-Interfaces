@@ -7,19 +7,23 @@ nav_order: 0
 # Digital Interfaces
 
 ## Assignments
-[1: Digital Interfaces Safari](assignments/01-digital-interface-safari/index)
 
-[2: Reaction Game](assignments/02-reaction-game/index)
+[1: Reaction Game - Discover](assignments/01-reaction-game-discover/index.md)
 
-[3: Game Controller](assignments/03-game-controller/index)
+[2: Reaction Game - Achieve](assignments/02-reaction-game-achieve/index.md)
 
-[4: Data Embodiment](assignments/04-data-embodiment/index)
+[3: Game Controller - Discover](assignments/03-game-controller-discover/index.md)
 
-[5: Walkie-Talkie](assignments/05-walkie-talkie/index)
+[4: Game Controller - Achieve](assignments/04-game-controller-achieve/index.md)
 
-[6: Disco ball](assignments/06-disco-ball/index)
+[5: Walkie-Talkie - Discover](assignments/05-walkie-talkie-discover/index.md)
+
+[6: Walkie-Talkie - Achieve](assignments/06-walkie-talkie-achieve/index.md)
 
 [7+8: Animistic design](assignments/07+08-animistic-design/index.md)
 
 ## Tutorials
-[Building a Pomodoro timer](tutorials/02-pomodoro/index)
+[Non-Blocking Timers](tutorials/01-time/index.md)  
+
+[Building a Pomodoro timer](tutorials/02-pomodoro/index.md)
+

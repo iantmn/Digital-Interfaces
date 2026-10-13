@@ -1,10 +1,15 @@
-remote_theme: pmarsceill/just-the-docs
+theme: just-the-docs
+
+# If issues with merging of this file occur in the future, please run the following command in a terminal:
+# git config merge.ours.driver true 
+baseurl: /Digital-Interfaces  # For test branch: /repository-name/test
+
 #theme: just-the-docs 
 title: Digital Interfaces
 color_scheme: digital-interfaces
 plugins:
   - jekyll-redirect-from
-
+  - jekyll-tabs
 callouts:
   warning:
     title: Warning
@@ -12,9 +17,9 @@ callouts:
   note:
     title: note
     color: blue
-  note:
-    title: important
-    color: red
+  attention:
+    title: attention
+    color: yellow
 
 # External navigation links
 nav_external_links:
@@ -38,3 +43,7 @@ nav_external_links:
     url: https://docs.circuitpython.org/en/latest/README.html
     hide_icon: false # set to true to hide the external link icon - defaults to false
     opens_in_new_tab: true # set to true to open this link in a new tab - defaults to false
+  - title: Chat Bot - DI Helpdesk
+    url: https://di-helpdesk.studiolab.ide.tudelft.nl/
+    hide_icon: false # set to true to hide the external link icon - defaults to false
+    opens_in_new_tab: true # set to true to open this link in a new tab

@@ -1,5 +1,11 @@
 
-h1, .site-header {
-    font-family: $mono-font-family;
-    text-transform: uppercase;
+h1 {
+   font-family: "SFMono-Regular", menlo, consolas, monospace !important;
+   text-transform: uppercase !important;
 }
+
+.site-header {
+   font-family: "SFMono-Regular", menlo, consolas, monospace !important;
+   text-transform: uppercase !important;
+}
+
